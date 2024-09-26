@@ -1,0 +1,44 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Use the Node.js version compatible with your project
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Run TypeScript build (if applicable)
+      - name: Build project
+        run: npm run build  # Assuming you have a 'build' script in your package.json
+
+      # Run tests (if applicable)
+      - name: Run tests
+        run: npm test  # Assuming you have tests set up
+
+      # Lint the project (optional)
+      - name: Lint project
+        run: npm run lint  # Assuming you have a lint script
+
+      # Ensure TypeScript type-checking is successful
+      - name: TypeScript type-check
+        run: npm run tsc  # If 'tsc' command is set to run TypeScript compiler
